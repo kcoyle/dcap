@@ -2,6 +2,11 @@
 
 [toc]
 
+## Introduction
+
+This vocabulary defines the elements of an application profile. The purpose of a profile is to define and constrain the property/value pairs in metadata instances. These pairs are statements about some thing that the metadata describes, and may be grouped into distinct graphs called shapes. The profile provides rules governing the creation and use of the metadata, listing properties, their cardinality, valid value types, and giving labels and notes to aid the reader of the profile.
+
+
 ## Vocabulary elements
 
 | | |element | datatype
@@ -12,7 +17,7 @@
 | Shape= | one | shapeID | IRI or LITERAL
 | | zero or one | shapeLabel | LITERAL
 |
-| Statement= | one | propertyID | IRI
+| Statement constraint= | one | propertyID | IRI
 | | zero or one | propertyLabel | LITERAL
 | | zero or one | mandatory | BOOLEAN
 | | zero or one | repeatable | BOOLEAN
@@ -31,7 +36,7 @@ An application profile specifies the structures and metadata terms used in a dat
 
 ### Shape
 
-
+A group of statement constraints that share a subject node and are identified with the same shapeID. 
 
 ### shapeID
 
@@ -44,7 +49,9 @@ A brief human-readable label for the shape.
 
 **Examples:** "Book", "Course", "Address"
 
-### Statement
+### Statement constraint
+
+A statement constraint consists of a property and any rules that constrain the property and its value. 
 
 ### propertyID
 
@@ -83,22 +90,32 @@ This is for values with an RDF node type of "LITERAL". Where the instance metada
 
 **Examples:** <pre>xsd:decimal, xsd:string, xsd:date</pre>
 
+### note
+
+Any additional or explanatory information related to the statement or any part of the statement, generally in natural language.
+
+**Examples**: "Take title from the first page of the document." "The page number on which the work ends."
+
 ### valueConstraint
 
-*Specification deferred*
+This further constrains the value that has been defined by the property, the valueNodeType and valueDataType. Where the property value takes is a single literal string instance or IRI, that value is carried in the valueConstraint cell. 
 
-Additional rules for values beyond the value type; these may include pick lists of terms ("red" "blue" "yellow"), IRI stems for selections from identified term lists or thesauri ("https://id.loc.gov"), statements of minimal or maximum numeric values ("age < 21" "date > 2019"), or any other actionable validation statement including regular expressions.
+**Examples:**
+
+| Property    | valueNodeType | valueDataType | valueConstraint                                   |
+| ----------- | ------------- | ------------- | ------------------------------------------------- |
+| rdf:type    | IRI           |               | sdo:ComicIssue                                    |
+| dct:subject | IRI           |               | http://id.loc.gov/authorities/subjects/sh85141948 |
+| dct:subject | LITERAL       | xsd:string    | Vampires                                          |
+
+*Additional rules deferred*
+
+Additional rules for values that are not simple strings have not yet been defined by the working group. These may include pick lists of terms ("red" "blue" "yellow"), IRI stems for selections from identified term lists or thesauri ("https://id.loc.gov"), statements of minimal or maximum numeric values ("age < 21" "date > 2019"), or any other actionable validation statement including regular expressions. These require the definition of a value constraint type.
 
 ### valueConstraintType
 
 *Specification deferred*
 
-Because all cells in the CSV tabular form are strings, constraints will not be actionable unless they are defined by type. The working group is considering types like sx:URIstem, regEx (what flavor?), pick list, etc., but the potential range of possibilities is large, therefore this is yet unspecified.
-
-
-### note
-
-Any additional or explanatory information related to the statement or any part of the statement, generally in natural language.
-
+Because all cells in the CSV tabular form are strings, value constraints will not be actionable unless they are defined by type. The working group is considering types like sx:URIstem, regEx (what flavor?), pick list, etc., but the potential range of possibilities is large, therefore this is yet unspecified.
 
 
